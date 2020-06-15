@@ -2,7 +2,9 @@ package com.tappli.paging3
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -22,6 +24,16 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             getStream().collectLatest {
                 adapter.submitData(it)
+            }
+        }
+//        adapter.addLoadStateListener { status ->
+//            progressBar.isVisible =
+//                (status.refresh is LoadState.Loading) or (status.append is LoadState.Loading)
+//        }
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest {
+                progressBar.isVisible =
+                    (it.refresh is LoadState.Loading) or (it.append is LoadState.Loading)
             }
         }
     }
