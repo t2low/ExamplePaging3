@@ -7,7 +7,7 @@ import kotlin.random.Random
 class DataSource : PagingSource<Int, String>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         return try {
-            if (Random.nextInt(10) == 0) throw IllegalStateException()
+            if (Random.nextInt(3) == 0) throw IllegalStateException()
 
             val pageNumber = params.key ?: 0
             val items = (0 until 25).map { it + pageNumber * 25 }.map { it.toString() }

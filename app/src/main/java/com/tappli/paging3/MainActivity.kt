@@ -34,7 +34,13 @@ class MainActivity : AppCompatActivity() {
             adapter.loadStateFlow.collectLatest {
                 progressBar.isVisible =
                     (it.refresh is LoadState.Loading) or (it.append is LoadState.Loading)
+                retryButton.isVisible =
+                    (it.refresh is LoadState.Error) or (it.append is LoadState.Error)
             }
+        }
+
+        retryButton.setOnClickListener {
+            adapter.retry()
         }
     }
 
